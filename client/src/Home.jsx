@@ -15,31 +15,33 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <h1 className="page-title">All Dogs:</h1>
-      {dogs.length == 0 ? (
-        <p className="no-dogs">No Dogs Found</p>
-      ): (
-        <div className="dogs-grid">
-          {dogs.map(dog => (
-            <Link key={dog.id} to={`/dogs/${dog.id}`} className="dog-name-link">
-            <div className="dog-card">
-              <h3 className="dog-name">{dog.name}</h3>
-              <div className="dog-details">
-              {dog.cityName && (
-                <span className="dog-city"> City: {dog.cityName}</span>
-              )}              
-              {dog.walkerName ? (
-                 <span className="dog-walker"> Walker: {dog.walkerName}</span>
-              ) : (
-                <span className="no-walker"> No walker assigned.</span>
-                 )}
+      <div className="page-header">
+        <h1 className="page-title">All Dogs:</h1>
+        <Link to="/dogs/add" className="add-dog-btn">Add Dog</Link>
+      </div>
+        {dogs.length == 0 ? (
+          <p className="no-dogs">No Dogs Found</p>
+        ): (
+          <div className="dogs-grid">
+            {dogs.map(dog => (
+              <Link key={dog.id} to={`/dogs/${dog.id}`} className="dog-name-link">
+              <div className="dog-card">
+                <h3 className="dog-name">{dog.name}</h3>
+                <div className="dog-details">
+                {dog.cityName && (
+                  <span className="dog-city"> City: {dog.cityName}</span>
+                )}              
+                {dog.walkerName ? (
+                  <span className="dog-walker"> Walker: {dog.walkerName}</span>
+                ) : (
+                  <span className="no-walker"> No walker assigned.</span>
+                  )}
+                </div>
               </div>
-            </div>
-            </Link>
-          ))}
-        </div>
-        
-      )}
+              </Link>
+            ))}
+          </div>        
+        )}
     </div>
   );
 }

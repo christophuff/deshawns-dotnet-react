@@ -8,3 +8,18 @@ export const getDogById = async (id) => {
   return res.json();
 };
 
+export const createDog = async (dogData) => {
+  const res = await fetch(`/api/dogs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dogData),
+  });
+  return res.json();
+};
+
+export const getAllCities = async () => {
+  const res = await fetch(`/api/cities`);
+  return res.json();
+};
