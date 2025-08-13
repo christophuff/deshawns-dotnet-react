@@ -1,3 +1,89 @@
+using Deshawns.Models;
+using Deshawns.Models.DTOs;
+
+List<Dog> dogs = new List<Dog>()
+{
+    new Dog()
+    {
+        Id = 1,
+        Name = "Astara",
+        CityId = 1,
+        WalkerId = 1,
+    },
+    new Dog()
+    {
+        Id = 2,
+        Name = "Luna",
+        CityId = 1,
+        WalkerId = null,
+    },
+    new Dog()
+    {
+        Id = 3,
+        Name = "Dash",
+        CityId = 2,
+        WalkerId = null,
+    },
+
+};
+
+List<City> cities = new List<City>()
+{
+    new City()
+    {
+        Id = 1,
+        Name = "Nashville",
+    },
+    new City()
+    {
+        Id = 2,
+        Name = "Chicago",
+    },
+    new City()
+    {
+        Id = 3,
+        Name = "St. Louis",
+    },
+};
+
+List<Walker> walkers = new List<Walker>()
+{
+    new Walker()
+    {
+        Id = 1,
+        Name = "Chris Huff",
+    },
+    new Walker()
+    {
+        Id = 2,
+        Name = "Ketzel Pretzel",
+    },
+};
+
+List<WalkerCity> walkerCities = new List<WalkerCity>()
+{
+    new WalkerCity()
+    {
+        WalkerId = 1,
+        CityId = 1,
+    },
+    new WalkerCity()
+    {
+        WalkerId = 1,
+        CityId = 2,
+    },
+    new WalkerCity()
+    {
+        WalkerId = 2,
+        CityId = 1,
+    },
+    new WalkerCity()
+    {
+        WalkerId = 2,
+        CityId = 3,
+    },
+};
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,9 +102,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/hello", () =>
+app.MapGet("/api/dogs", () =>
 {
-    return new { Message = "Welcome to DeShawn's Dog Walking" };
+    return dogs.Select(d => new DogDTO
+    {
+        Id = d.Id,
+        Name = d.Name,
+        CityId = d.CityId,
+        CityName = d.CityId.HasValue ? cities.FirstOrDefault(c => c.Id == d.CityId)?.Name : null,
+        WalkerId = d.WalkerId,
+        WalkerName = d.WalkerId.HasValue ? walkers.FirstOrDefault(w => w.Id == d.WalkerId)?.Name : null,
+    }).ToList();
 });
 
 
