@@ -102,6 +102,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+/*                  DOGS                    */
+
 app.MapGet("/api/dogs", () =>
 {
     return dogs.Select(d => new DogDTO
@@ -136,6 +138,42 @@ app.MapGet("api/dogs/{id}", (int id) =>
         WalkerId = dog.WalkerId,
         WalkerName = walker?.Name
     });
+});
+
+app.MapPost("/api/dogs", (DogDTO createDogDto) =>
+{
+    // Set the new ID and clear walker assignment
+    createDogDto.Id = dogs.Any() ? dogs.Max(d => d.Id) + 1 : 1;
+    createDogDto.WalkerId = null;
+    createDogDto.WalkerName = null;
+
+    // Create the Dog model from the DTO
+    Dog newDog = new Dog
+    {
+        Id = createDogDto.Id,
+        Name = createDogDto.Name,
+        CityId = createDogDto.CityId,
+        WalkerId = createDogDto.WalkerId
+    };
+
+    dogs.Add(newDog);
+
+    // Add city name for the response
+    City city = cities.FirstOrDefault(c => c.Id == createDogDto.CityId);
+    createDogDto.CityName = city?.Name;
+
+    return Results.Created($"/api/dogs/{createDogDto.Id}", createDogDto);
+});
+
+/*                  CITIES                    */
+
+app.MapGet("/api/cities", () =>
+{
+    return cities.Select(city => new CityDTO
+    {
+        Id = city.Id,
+        Name = city.Name,
+    }).ToList();
 });
 
 app.Run();
