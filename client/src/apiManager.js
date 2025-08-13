@@ -23,3 +23,9 @@ export const getAllCities = async () => {
   const res = await fetch(`/api/cities`);
   return res.json();
 };
+
+export const getAllWalkers = async (cityId = null) => {
+  const url = cityId ? `/api/walkers?cityId=${cityId}` : `/api/walkers`;
+  const res = await fetch(url);
+  return res.json();
+};
