@@ -1,5 +1,6 @@
 using Deshawns.Models;
 using Deshawns.Models.DTOs;
+using Microsoft.AspNetCore.HttpLogging;
 
 List<Dog> dogs = new List<Dog>()
 {
@@ -174,6 +175,70 @@ app.MapGet("/api/cities", () =>
         Id = city.Id,
         Name = city.Name,
     }).ToList();
+});
+
+/*                  WALKERS                    */
+
+app.MapGet("/api/walkers", (int? cityId) =>
+{
+    if (cityId.HasValue)
+    {
+        // Filter by specific city
+        var walkerIdsInCity = walkerCities
+            .Where(wc => wc.CityId == cityId.Value)
+            .Select(wc => wc.WalkerId)
+            .Distinct();
+
+        var walkersInCity = walkers
+            .Where(w => walkerIdsInCity.Contains(w.Id))
+            .Select(walker =>
+            {
+                var walkerCityIds = walkerCities
+                    .Where(wc => wc.WalkerId == walker.Id)
+                    .Select(wc => wc.CityId);
+                
+                var walkerCityDTOs = cities
+                    .Where(c => walkerCityIds.Contains(c.Id))
+                    .Select(c => new CityDTO { Id = c.Id, Name = c.Name })
+                    .ToList();
+
+                return new WalkerDTO
+                {
+                    Id = walker.Id,
+                    Name = walker.Name,
+                    Cities = walkerCityDTOs
+                };
+            })
+            .ToList();
+
+        return Results.Ok(walkersInCity);
+    }
+    else
+    {
+        // Return ALL walkers
+        var allWalkerDTOs = walkers
+            .Select(walker =>
+            {
+                var walkerCityIds = walkerCities
+                    .Where(wc => wc.WalkerId == walker.Id)
+                    .Select(wc => wc.CityId);
+                
+                var walkerCityDTOs = cities
+                    .Where(c => walkerCityIds.Contains(c.Id))
+                    .Select(c => new CityDTO { Id = c.Id, Name = c.Name })
+                    .ToList();
+
+                return new WalkerDTO
+                {
+                    Id = walker.Id,
+                    Name = walker.Name,
+                    Cities = walkerCityDTOs
+                };
+            })
+            .ToList();
+
+        return Results.Ok(allWalkerDTOs);
+    }
 });
 
 app.Run();

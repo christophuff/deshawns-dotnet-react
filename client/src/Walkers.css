@@ -1,0 +1,149 @@
+.walkers-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.city-filter {
+  padding: 0.5rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-width: 150px;
+  transition: border-color 0.2s ease;
+}
+
+.city-filter:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.loading {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.no-walkers {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.walkers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.walker-card {
+  flex: 1 1 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e8ed;
+  min-width: 280px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.walker-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.walker-name {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.walker-cities {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cities-label {
+  font-weight: 500;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.cities-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.city-tag {
+  background: #3498db;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .walkers-container {
+    padding: 1rem;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .walkers-grid {
+    flex-direction: column;
+  }
+  
+  .walker-card {
+    flex: 1 1 auto;
+    min-width: auto;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .filter-section {
+    justify-content: center;
+  }
+}
