@@ -1,5 +1,6 @@
 import { getAllDogs } from "./apiManager";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [dogs, setDogs] = useState([]);
@@ -20,7 +21,8 @@ export default function Home() {
       ): (
         <div className="dogs-grid">
           {dogs.map(dog => (
-            <div key={dog.id} className="dog-card">
+            <Link key={dog.id} to={`/dogs/${dog.id}`} className="dog-name-link">
+            <div className="dog-card">
               <h3 className="dog-name">{dog.name}</h3>
               <div className="dog-details">
               {dog.cityName && (
@@ -33,8 +35,10 @@ export default function Home() {
                  )}
               </div>
             </div>
+            </Link>
           ))}
         </div>
+        
       )}
     </div>
   );
