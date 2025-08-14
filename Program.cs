@@ -166,6 +166,34 @@ app.MapPost("/api/dogs", (DogDTO createDogDto) =>
     return Results.Created($"/api/dogs/{createDogDto.Id}", createDogDto);
 });
 
+// Assign a walker to a dog
+app.MapPut("/api/dogs/{dogId}/walker", (int dogId, WalkerDTO walkerData) =>
+{
+    Dog dog = dogs.FirstOrDefault(d => d.Id == dogId);
+    if (dog == null)
+    {
+        return Results.NotFound("Dog not found");
+    }
+
+    dog.WalkerId = walkerData.Id;
+
+    // Return updated dog details
+    City city = cities.FirstOrDefault(c => c.Id == dog.CityId);
+    Walker walker = walkers.FirstOrDefault(w => w.Id == dog.WalkerId);
+
+    var updatedDogDTO = new DogDTO
+    {
+        Id = dog.Id,
+        Name = dog.Name,
+        CityId = dog.CityId,
+        CityName = city?.Name,
+        WalkerId = dog.WalkerId,
+        WalkerName = walker?.Name
+    };
+
+    return Results.Ok(updatedDogDTO);
+});
+
 /*                  CITIES                    */
 
 app.MapGet("/api/cities", () =>
@@ -196,7 +224,7 @@ app.MapGet("/api/walkers", (int? cityId) =>
                 var walkerCityIds = walkerCities
                     .Where(wc => wc.WalkerId == walker.Id)
                     .Select(wc => wc.CityId);
-                
+
                 var walkerCityDTOs = cities
                     .Where(c => walkerCityIds.Contains(c.Id))
                     .Select(c => new CityDTO { Id = c.Id, Name = c.Name })
@@ -222,7 +250,7 @@ app.MapGet("/api/walkers", (int? cityId) =>
                 var walkerCityIds = walkerCities
                     .Where(wc => wc.WalkerId == walker.Id)
                     .Select(wc => wc.CityId);
-                
+
                 var walkerCityDTOs = cities
                     .Where(c => walkerCityIds.Contains(c.Id))
                     .Select(c => new CityDTO { Id = c.Id, Name = c.Name })
@@ -239,6 +267,42 @@ app.MapGet("/api/walkers", (int? cityId) =>
 
         return Results.Ok(allWalkerDTOs);
     }
+});
+
+//Get dogs available for a specific walker
+app.MapGet("/api/walkers/{walkerId}/available-dogs", (int walkerId) =>
+{
+    //Get cities where this walker works
+    var walkerCityIds = walkerCities
+        .Where(wc => wc.WalkerId == walkerId)
+        .Select(wc => wc.CityId)
+        .ToList();
+
+    // Get dogs that are:
+    // 1. In the walker's cities
+    // 2. Not already assigned to this walker
+    var availableDogs = dogs
+        .Where(d => d.CityId.HasValue &&
+            walkerCityIds.Contains(d.CityId.Value) &&
+            d.WalkerId != walkerId)
+        .Select(dog =>
+        {
+            City city = cities.FirstOrDefault(c => c.Id == dog.CityId);
+            Walker currentWalker = dog.WalkerId.HasValue ? walkers.FirstOrDefault(w => w.Id == dog.WalkerId) : null;
+
+            return new DogDTO
+            {
+                Id = dog.Id,
+                Name = dog.Name,
+                CityId = dog.CityId,
+                CityName = city?.Name,
+                WalkerId = dog.WalkerId,
+                WalkerName = currentWalker?.Name
+            };
+        }).ToList();
+
+    return Results.Ok(availableDogs);
+
 });
 
 app.Run();

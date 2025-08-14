@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllWalkers, getAllCities } from "./apiManager";
+import { Link } from "react-router-dom";
 import "./Walkers.css";
 
 export default function Walkers() {
@@ -69,7 +70,15 @@ export default function Walkers() {
         <div className="walkers-grid">
           {walkers.map(walker => (
             <div key={walker.id} className="walker-card">
-              <h3 className="walker-name">{walker.name}</h3>
+              <div className="walker-header">
+                <h3 className="walker-name">{walker.name}</h3>
+                <Link 
+                  to={`/walkers/${walker.id}/assign-dog`}
+                  className="add-dog-btn"
+                >
+                  Add Dog
+                </Link>
+              </div>
               <div className="walker-cities">
                 <span className="cities-label">Cities:</span>
                 <div className="cities-list">
