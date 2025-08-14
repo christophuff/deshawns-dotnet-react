@@ -29,3 +29,19 @@ export const getAllWalkers = async (cityId = null) => {
   const res = await fetch(url);
   return res.json();
 };
+
+export const getAvailableDogsForWalker = async (walkerId) => {
+  const res = await fetch(`/api/walkers/${walkerId}/available-dogs`);
+  return res.json();
+}
+
+export const assignWalkerToDog = async(dogId, walkerId) => {
+  const res = await fetch(`/api/dogs/${dogId}/walker`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: walkerId, name: "", cities: [] }),
+  });
+  return res.json();
+} 

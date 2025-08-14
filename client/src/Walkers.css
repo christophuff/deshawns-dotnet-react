@@ -118,6 +118,30 @@
   font-weight: 500;
 }
 
+.walker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.add-dog-btn {
+  background: #27ae60;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.add-dog-btn:hover {
+  background: #219a52;
+  color: white;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .walkers-container {
