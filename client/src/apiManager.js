@@ -44,4 +44,15 @@ export const assignWalkerToDog = async(dogId, walkerId) => {
     body: JSON.stringify({ id: walkerId, name: "", cities: [] }),
   });
   return res.json();
-} 
+}
+
+export const createCity = async (cityData) => {
+  const res = await fetch(`/api/cities`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cityData),
+  });
+  return res.json();
+};

@@ -205,6 +205,22 @@ app.MapGet("/api/cities", () =>
     }).ToList();
 });
 
+app.MapPost("/api/cities", (CityDTO newCity) =>
+{
+    newCity.Id = cities.Any() ? cities.Max(c => c.Id) + 1 : 1;
+
+    City cityToAdd = new City
+    {
+        Id = newCity.Id,
+        Name = newCity.Name
+    };
+
+    cities.Add(cityToAdd);
+
+    return Results.Created($"/api/cities/{newCity.Id}", newCity);
+    
+});
+
 /*                  WALKERS                    */
 
 app.MapGet("/api/walkers", (int? cityId) =>
