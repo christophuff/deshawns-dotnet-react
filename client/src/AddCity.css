@@ -1,0 +1,99 @@
+.city-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.city-input {
+  padding: 0.75rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-width: 250px;
+  transition: border-color 0.2s ease;
+}
+
+.city-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.add-city-btn {
+  background: #27ae60;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-city-btn:hover {
+  background: #219a52;
+}
+
+.current-cities {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.city-cards {
+  display: block;
+}
+
+.city-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e8ed;
+  min-width: 200px;
+  text-align: left;
+}
+
+
+.city-name {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .city-container {
+    padding: 1rem;
+  }
+  
+  form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .city-input {
+    min-width: auto;
+  }
+  
+  .current-cities {
+    font-size: 1.5rem;
+  }
+  
+  .city-cards {
+    flex-direction: column;
+  }
+}
