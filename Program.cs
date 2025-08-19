@@ -194,6 +194,18 @@ app.MapPut("/api/dogs/{dogId}/walker", (int dogId, WalkerDTO walkerData) =>
     return Results.Ok(updatedDogDTO);
 });
 
+app.MapDelete("/api/dogs/{id}", (int id) =>
+{
+    Dog dogToRemove = dogs.FirstOrDefault(d => d.Id == id);
+    if (dogToRemove == null)
+    {
+        return Results.NotFound();
+    }
+
+    dogs.Remove(dogToRemove);
+    return Results.NoContent();
+});
+
 /*                  CITIES                    */
 
 app.MapGet("/api/cities", () =>
@@ -319,6 +331,82 @@ app.MapGet("/api/walkers/{walkerId}/available-dogs", (int walkerId) =>
 
     return Results.Ok(availableDogs);
 
+});
+
+// Get specific walker with cities
+app.MapGet("/api/walkers/{id}", (int id) =>
+{
+    Walker walker = walkers.FirstOrDefault(w => w.Id == id);
+    if (walker == null)
+    {
+        return Results.NotFound();
+    }
+
+    var walkerCityIds = walkerCities
+        .Where(wc => wc.WalkerId == id)
+        .Select(wc => wc.CityId);
+
+    var walkerCityDTOs = cities
+        .Where(c => walkerCityIds.Contains(c.Id))
+        .Select(c => new CityDTO { Id = c.Id, Name = c.Name })
+        .ToList();
+
+    return Results.Ok(new WalkerDTO
+    {
+        Id = walker.Id,
+        Name = walker.Name,
+        Cities = walkerCityDTOs
+    });
+});
+
+// Update walker
+app.MapPut("/api/walkers/{id}", (int id, WalkerDTO walkerDto) =>
+{
+    Walker walker = walkers.FirstOrDefault(w => w.Id == id);
+    if (walker == null)
+    {
+        return Results.NotFound();
+    }
+
+    // Update walker name
+    walker.Name = walkerDto.Name;
+
+    // Remove all existing city assignments for this walker
+    walkerCities.RemoveAll(wc => wc.WalkerId == id);
+
+    // Add new city assignments
+    foreach (var cityDto in walkerDto.Cities)
+    {
+        walkerCities.Add(new WalkerCity
+        {
+            WalkerId = id,
+            CityId = cityDto.Id,
+            Walker = walker,
+            City = cities.FirstOrDefault(c => c.Id == cityDto.Id)
+        });
+    }
+
+    return Results.Ok(walkerDto);
+});
+
+app.MapDelete("/api/walkers/{id}", (int id) =>
+{
+    Walker walkerToDelete = walkers.FirstOrDefault(w => w.Id == id);
+
+    if (walkerToDelete == null)
+    {
+        return Results.NotFound();
+    }
+
+    foreach (var dog in dogs.Where(d => d.WalkerId == id))
+    {
+        dog.WalkerId = null;
+    }
+
+    walkerCities.RemoveAll(wc => wc.WalkerId == id);
+
+    walkers.Remove(walkerToDelete);
+    return Results.NoContent();
 });
 
 app.Run();

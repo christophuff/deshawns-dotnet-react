@@ -1,4 +1,4 @@
-import { getAllDogs } from "./apiManager";
+import { getAllDogs, deleteDog } from "./apiManager";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,6 +13,20 @@ export default function Home() {
       });
   }, []);
 
+  const handleDeleteDog = (dogId, dogName) => {
+    if (window.confirm(`Are you sure you want to delete ${dogName}?`)) {
+      deleteDog(dogId)
+        .then(() => {
+          // remove dog from state to update UI
+          setDogs(dogs.filter(dog => dog.id !== dogId));
+        })
+        .catch(() => {
+          alert("Failed to delete dog");
+        });
+
+    }
+  }
+
   return (
     <div className="home-container">
       <div className="page-header">
@@ -24,21 +38,32 @@ export default function Home() {
         ): (
           <div className="dogs-grid">
             {dogs.map(dog => (
-              <Link key={dog.id} to={`/dogs/${dog.id}`} className="dog-name-link">
-              <div className="dog-card">
-                <h3 className="dog-name">{dog.name}</h3>
-                <div className="dog-details">
-                {dog.cityName && (
-                  <span className="dog-city"> City: {dog.cityName}</span>
-                )}              
-                {dog.walkerName ? (
-                  <span className="dog-walker"> Walker: {dog.walkerName}</span>
-                ) : (
-                  <span className="no-walker"> No walker assigned.</span>
-                  )}
-                </div>
+              <div key={dog.id} className="dog-card-container"> {/* Container div */}
+                <Link to={`/dogs/${dog.id}`} className="dog-name-link">
+                  <div className="dog-card">
+                    <h3 className="dog-name">{dog.name}</h3>
+                    <div className="dog-details">
+                    {dog.cityName && (
+                      <span className="dog-city"> City: {dog.cityName}</span>
+                    )}              
+                    {dog.walkerName ? (
+                      <span className="dog-walker"> Walker: {dog.walkerName}</span>
+                    ) : (
+                      <span className="no-walker"> No walker assigned.</span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+                <button
+                  className="remove-dog-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteDog(dog.id, dog.name);
+                  }}
+                >
+                  Remove
+                </button>
               </div>
-              </Link>
             ))}
           </div>        
         )}

@@ -67,9 +67,14 @@
   margin-top: 2rem;
 }
 
-.walker-card {
+.walker-card-container {
   flex: 1 1 300px;
-  background: white;
+  min-width: 280px;
+  position: relative;
+}
+
+.walker-card {
+  width: 100%;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -140,6 +145,36 @@
 .add-dog-btn:hover {
   background: #219a52;
   color: white;
+}
+
+.walker-name-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.walker-name-link:hover .walker-name {
+  color: #3498db;
+  cursor: pointer;
+}
+
+.remove-walker-btn {
+  position: absolute;
+  top: 3.5rem;
+  left: 1.5rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+.remove-walker-btn:hover {
+  background: #c0392b;
 }
 
 /* Responsive design */

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllWalkers, getAllCities } from "./apiManager";
+import { getAllWalkers, getAllCities, deleteWalker } from "./apiManager";
 import { Link } from "react-router-dom";
 import "./Walkers.css";
 
@@ -35,6 +35,19 @@ export default function Walkers() {
     setSelectedCityId(e.target.value);
   };
 
+  const handleDeleteWalker = (walkerId, walkerName) => {
+    if (window.confirm(`Are you sure you want to delete ${walkerName}? This will unassign all their dogs.`)) {
+      deleteWalker(walkerId)
+        .then(() => {
+          // Remove walker from state to update UI
+          setWalkers(walkers.filter(walker => walker.id !== walkerId));
+        })
+        .catch(() => {
+          alert("Failed to delete walker");
+        });
+    }
+  }
+
   return (
     <div className="walkers-container">
       <div className="page-header">
@@ -69,27 +82,37 @@ export default function Walkers() {
       ) : (
         <div className="walkers-grid">
           {walkers.map(walker => (
-            <div key={walker.id} className="walker-card">
-              <div className="walker-header">
-                <h3 className="walker-name">{walker.name}</h3>
-                <Link 
-                  to={`/walkers/${walker.id}/assign-dog`}
-                  className="add-dog-btn"
-                >
-                  Add Dog
-                </Link>
-              </div>
-              <div className="walker-cities">
-                <span className="cities-label">Cities:</span>
-                <div className="cities-list">
-                  {walker.cities && walker.cities.map((city, index) => (
-                    <span key={city.id} className="city-tag">
-                      {city.name}
-                      {index < walker.cities.length - 1 && ", "}
-                    </span>
-                  ))}
+            <div key={walker.id} className="walker-card-container">
+              <div className="walker-card">
+                <div className="walker-header">
+                  <Link to={`/walkers/${walker.id}/edit`} className="walker-name-link">
+                    <h3 className="walker-name">{walker.name}</h3>
+                  </Link>
+                  <Link 
+                    to={`/walkers/${walker.id}/assign-dog`}
+                    className="add-dog-btn"
+                  >
+                    Add Dog
+                  </Link>
+                </div>
+                <div className="walker-cities">
+                  <span className="cities-label">Cities:</span>
+                  <div className="cities-list">
+                    {walker.cities && walker.cities.map((city, index) => (
+                      <span key={city.id} className="city-tag">
+                        {city.name}
+                        {index < walker.cities.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
+              <button
+                  className="remove-walker-btn"
+                  onClick={() => handleDeleteWalker(walker.id, walker.name)}
+                >
+                  Remove
+                </button>
             </div>
           ))}
         </div>

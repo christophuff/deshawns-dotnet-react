@@ -36,10 +36,17 @@
   margin-top: 2rem;
 }
 
-.dog-name-link {
-  text-decoration: none;
+/* NEW: Container for each dog card */
+.dog-card-container {
   flex: 1 1 300px;
   min-width: 280px;
+  position: relative; /* For absolute positioning of remove button */
+}
+
+.dog-name-link {
+  text-decoration: none;
+  color: inherit;
+  display: block; /* Make link fill the container */
 }
 
 .dog-card {
@@ -49,7 +56,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #e1e8ed;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+  width: 100%; /* Fill the link */
 }
 
 .dog-card:hover {
@@ -62,6 +69,10 @@
   margin: 0 0 1rem 0;
   font-size: 1.4rem;
   font-weight: 600;
+}
+
+.dog-name-link:hover .dog-name {
+  color: #3498db;
 }
 
 .dog-details {
@@ -83,7 +94,7 @@
 .no-walker {
   color: #e74c3c;
   font-weight: 500;
-  font-style: italic;
+  font-style: italic
 }
 
 .page-header {
@@ -107,6 +118,27 @@
   background: #2980b9;
   color: white;
 }
+
+.remove-dog-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+.remove-dog-btn:hover {
+  background: #c0392b;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

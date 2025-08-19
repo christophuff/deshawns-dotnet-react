@@ -1,0 +1,155 @@
+.edit-walker-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.back-link {
+  display: inline-block;
+  color: #3498db;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: #2980b9;
+}
+
+.edit-walker-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e8ed;
+}
+
+.form-title {
+  color: #2c3e50;
+  margin: 0 0 2rem 0;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.edit-walker-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.form-input {
+  padding: 0.75rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.cities-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e1e8ed;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.city-checkbox {
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.submit-btn {
+  flex: 1;
+  background: #3498db;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #2980b9;
+}
+
+.submit-btn:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  flex: 1;
+  background: #95a5a6;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #7f8c8d;
+  color: white;
+}
+
+.loading {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .edit-walker-container {
+    padding: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}

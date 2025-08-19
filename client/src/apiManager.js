@@ -56,3 +56,33 @@ export const createCity = async (cityData) => {
   });
   return res.json();
 };
+
+export const getWalkerById = async (id) => {
+  const res = await fetch(`/api/walkers/${id}`);
+  return res.json();
+};
+
+export const updateWalker = async (id, walkerData) => {
+  const res = await fetch(`/api/walkers/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(walkerData),
+  });
+  return res.json();
+};
+
+export const deleteDog = async (id) => {
+  const res = await fetch(`/api/dogs/${id}`, {
+    method: "DELETE",
+  });
+  return res;
+};
+
+export const deleteWalker = async (id) => {
+  const res = await fetch(`/api/walkers/${id}`, {
+    method: "DELETE",
+  });
+  return res;
+}
